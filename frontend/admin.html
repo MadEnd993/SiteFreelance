@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Жемчуг — Заявки</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Lora', Georgia, serif;
+    --color-pearl: #F5F0E8;
+    --color-pearl-dark: #EDE6D6;
+    --color-teal: #1C3D4F;
+    --color-teal-mid: #2A5568;
+    --color-gold: #B8944A;
+    --color-gold-light: #D4AC6A;
+    --color-sand: #8B7355;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: var(--color-pearl);
+    color: var(--color-teal);
+    -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 32px;
+    background: rgba(28, 61, 79, 0.92);
+    backdrop-filter: blur(12px);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand span:first-child { font-size: 1.5rem; }
+  .brand span:last-child {
+    font-family: var(--font-display); color: #F5F0E8;
+    letter-spacing: 0.12em; font-weight: 600; font-size: 1.2rem;
+  }
+  .brand-tag {
+    color: rgba(245,240,232,0.55); font-size: 0.7rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  main { max-width: 1000px; margin: 0 auto; padding: 56px 24px 100px; }
+  .eyebrow {
+    color: var(--color-gold); font-family: var(--font-display);
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 600; margin: 0 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--color-teal);
+  }
+  .subtitle { color: var(--color-sand); font-size: 0.98rem; margin: 0 0 36px; }
+  .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; gap: 16px; flex-wrap: wrap; }
+  .count { font-size: 0.85rem; color: var(--color-sand); }
+  .count strong { color: var(--color-teal); }
+  button.refresh {
+    background: var(--color-teal); color: #F5F0E8; border: none; border-radius: 4px;
+    font-family: var(--font-display); letter-spacing: 0.1em; text-transform: uppercase;
+    font-size: 0.72rem; padding: 11px 22px; cursor: pointer; transition: opacity .2s;
+  }
+  button.refresh:hover { opacity: 0.9; }
+  button.refresh:disabled { opacity: 0.5; cursor: default; }
+
+  .state-box {
+    text-align: center; padding: 60px 24px; border-radius: 12px;
+    background: rgba(255,255,255,0.6); border: 1px solid rgba(28,61,79,0.1);
+  }
+  .state-box .icon { font-size: 2.4rem; margin-bottom: 14px; }
+  .state-box p { color: var(--color-sand); font-size: 0.95rem; margin: 0; }
+  .state-box .err { color: #a34a3d; }
+
+  .cards { display: flex; flex-direction: column; gap: 16px; }
+  .card {
+    background: rgba(255,255,255,0.65); backdrop-filter: blur(10px);
+    border: 1px solid rgba(28,61,79,0.1); border-radius: 12px; padding: 24px 28px;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .card-name { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--color-teal); margin: 0 0 4px; }
+  .card-phone { font-size: 0.92rem; color: var(--color-teal-mid); }
+  .card-phone a { color: inherit; text-decoration: none; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(184,148,74,0.12); color: var(--color-gold);
+    padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px; margin-bottom: 14px;
+  }
+  .field-label {
+    font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--color-sand); margin-bottom: 3px;
+  }
+  .field-value { font-size: 0.92rem; color: var(--color-teal); }
+  .message {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(28,61,79,0.08);
+    font-size: 0.9rem; color: var(--color-teal-mid); font-style: italic;
+  }
+  .created-at { margin-top: 12px; font-size: 0.76rem; color: rgba(28,61,79,0.4); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <span>🪨</span>
+    <span>Жемчуг</span>
+  </div>
+  <span class="brand-tag">Заявки на бронирование</span>
+</nav>
+
+<main>
+  <p class="eyebrow">Админ-панель</p>
+  <h1>Входящие заявки</h1>
+  <p class="subtitle">Все заявки, оставленные через форму бронирования на сайте</p>
+
+  <div class="toolbar">
+    <span class="count" id="count"></span>
+    <button class="refresh" id="refreshBtn" onclick="loadBookings()">Обновить</button>
+  </div>
+
+  <div id="content">
+    <div class="state-box"><div class="icon">⏳</div><p>Загружаем заявки…</p></div>
+  </div>
+</main>
+
+<script>
+  const API_URL = 'http://localhost:8080/api/bookings';
+
+  const MESSENGER_LABELS = {
+    whatsapp: '💬 WhatsApp',
+    telegram: '✈️ Telegram',
+    viber: '📲 Viber',
+    phone: '📞 Звонок',
+  };
+
+  function formatDate(value) {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (isNaN(d)) return value;
+    return d.toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  function formatDateTime(value) {
+    if (!value) return '';
+    const d = new Date(value);
+    if (isNaN(d)) return '';
+    return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderCard(b) {
+    const messenger = MESSENGER_LABELS[b.messenger] || b.messenger || '—';
+    return `
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="card-name">${escapeHtml(b.name || 'Без имени')}</p>
+            <p class="card-phone"><a href="tel:${escapeHtml(b.phone)}">${escapeHtml(b.phone || '—')}</a></p>
+          </div>
+          <span class="badge">${messenger}</span>
+        </div>
+        <div class="grid">
+          <div><p class="field-label">Заезд</p><p class="field-value">${formatDate(b.checkin)}</p></div>
+          <div><p class="field-label">Выезд</p><p class="field-value">${formatDate(b.checkout)}</p></div>
+          <div><p class="field-label">Гостей</p><p class="field-value">${escapeHtml(b.guests || '—')}</p></div>
+          <div><p class="field-label">Номер</p><p class="field-value">${escapeHtml(b.roomType || '—')}</p></div>
+        </div>
+        ${b.message ? `<div class="message">«${escapeHtml(b.message)}»</div>` : ''}
+        <div class="created-at">Заявка оставлена: ${formatDateTime(b.createdAt) || '—'}</div>
+      </div>
+    `;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+  }
+
+  async function loadBookings() {
+    const content = document.getElementById('content');
+    const count = document.getElementById('count');
+    const btn = document.getElementById('refreshBtn');
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error('Сервер ответил с ошибкой: ' + res.status);
+      const bookings = await res.json();
+
+      if (!bookings || bookings.length === 0) {
+        count.textContent = '';
+        content.innerHTML = `<div class="state-box"><div class="icon">🌿</div><p>Заявок пока нет — как только гость отправит форму на сайте, она появится здесь.</p></div>`;
+        return;
+      }
+
+      count.innerHTML = `Всего заявок: <strong>${bookings.length}</strong>`;
+      content.innerHTML = `<div class="cards">${bookings.map(renderCard).join('')}</div>`;
+    } catch (err) {
+      console.error(err);
+      count.textContent = '';
+      content.innerHTML = `<div class="state-box"><div class="icon">⚠️</div><p class="err">Не удалось загрузить заявки. Проверьте, запущен ли сервер, и попробуйте ещё раз.</p></div>`;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  loadBookings();
+</script>
+
+</body>
+</html>

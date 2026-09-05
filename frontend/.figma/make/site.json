@@ -1,0 +1,10 @@
+{
+  "description": "Create stylish online business cards for guest houses with a user-friendly booking form, allowing guests to easily submit reservation requests.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
